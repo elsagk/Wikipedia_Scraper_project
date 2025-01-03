@@ -11,25 +11,6 @@ def get_the_countries(countries_url, cookies):
     countries = requests.get(countries_url, cookies=cookies).json()
     return countries
 
-def get_first_paragraph(wikipedia_url):
-    print(wikipedia_url)
-    r = requests.get(wikipedia_url)
-    
-    # Parse HTML content
-    soup = BeautifulSoup(r.text, 'html.parser')
-    paragraphs = soup.find_all('p')
-      #get the 1st paragraph
-    first_paragraph = None
-    for paragraph in paragraphs:
-        text = paragraph.get_text(separator=" ",strip=True)# this fix the words problem
-        if text:  #check non-empty paragraphs
-            first_paragraph = text
-            break
-        # clean up the text
-    if first_paragraph: 
-        first_paragraph = re.sub(r'\(\[\s?.*?\s?\]\s?\/.*?;?\)|\[\s?[a-zA-Z0-9]\s?\]', '', first_paragraph) #  remove like [1], [a]
-    
-    return first_paragraph
 
 def get_leaders():
     root_url = "https://country-leaders.onrender.com"
@@ -78,6 +59,27 @@ def get_leaders():
     
     return leaders_per_country
 
+def get_first_paragraph(wikipedia_url):
+    print(wikipedia_url)
+    r = requests.get(wikipedia_url)
+    
+    # Parse HTML content
+    soup = BeautifulSoup(r.text, 'html.parser')
+    paragraphs = soup.find_all('p')
+      #get the 1st paragraph
+    first_paragraph = None
+    for paragraph in paragraphs:
+        text = paragraph.get_text(separator=" ",strip=True)# this fix the words problem
+        if text:  #check non-empty paragraphs
+            first_paragraph = text
+            break
+        # clean up the text
+    if first_paragraph: 
+        first_paragraph = re.sub(r'\(\[\s?.*?\s?\]\s?\/.*?;?\)|\[\s?[a-zA-Z0-9]\s?\]', '', first_paragraph) #  remove like [1], [a]
+    
+    return first_paragraph
+
+leaders_file = get_leaders()
 
 def save(leaders_per_country):
     with open('leaders.json', 'w') as file:
@@ -85,6 +87,5 @@ def save(leaders_per_country):
 
 
 #call the save function
-save(get_leaders())
-
+save(leaders_file)
 
