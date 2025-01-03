@@ -32,4 +32,4 @@ https://github.com/elsagk
 
 ## Timeline
 
-This stage of the project lasted January 3 11 at 3:30 PM
+This stage of the project lasted January 3 at 3:30 PM
